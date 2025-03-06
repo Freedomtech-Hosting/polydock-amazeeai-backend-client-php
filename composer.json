@@ -1,0 +1,21 @@
+{
+    "name": "freedomtech-hosting/polydock-amazeeai-backend-client-php",
+    "description": "The Freedom Tech amazee.ai Private AI PHP library",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "FreedomtechHosting\\PolydockAmazeeAIBackendClient\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Bryan Gruneberg",
+            "email": "hello@bryangruneberg.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "symfony/http-client": "^7.2"
+    }
+}
