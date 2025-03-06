@@ -110,12 +110,18 @@ class Client
      * @param string $name
      * @return array
      */
-    public function createPrivateAIKey(int $regionId, string $name): array
+    public function createPrivateAIKeys(int $regionId, string $name, int $userId = null): array
     {
-        return $this->post('/private-ai-keys', [
+        $data = [ 
             'region_id' => $regionId,
             'name' => $name,
-        ]);
+        ];
+
+        if ($userId) {
+            $data['user_id'] = $userId;
+        }
+
+        return $this->post('/private-ai-keys', $data);
     }
 
     /**
@@ -130,7 +136,7 @@ class Client
      * @param string $keyName
      * @return array
      */
-    public function deletePrivateAIKey(string $keyName): array
+    public function deletePrivateAIKeys(string $keyName): array
     {
         return $this->delete("/private-ai-keys/{$keyName}");
     }
