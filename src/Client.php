@@ -17,6 +17,7 @@ class Client
      */
     public function __construct(string $baseUrl, ?string $accessToken = null, $debug = false)
     {
+        $this->debug = $debug;
         $this->baseUrl = rtrim($baseUrl, '/');
         $this->accessToken = $accessToken;
         $this->headers = [
