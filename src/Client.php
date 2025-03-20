@@ -110,14 +110,14 @@ class Client
      * @param string $name
      * @return array
      */
-    public function createPrivateAIKeys(int $regionId, string $name, int $userId = null): array
+    public function createPrivateAIKeys(int $regionId, string $name, int $userId = 0): array
     {
         $data = [ 
             'region_id' => $regionId,
             'name' => $name,
         ];
 
-        if ($userId) {
+        if ($userId > 0) {
             $data['user_id'] = $userId;
         }
 
