@@ -321,6 +321,12 @@ class Client
      */ 
     private function request(string $method, string $path, array $data = [], array $query = []): array
     {
+
+        print "Method: {$method}\n";
+        print "Path: {$path}\n";
+        print "Data: " . json_encode($data) . "\n";
+        print "Query: " . json_encode($query) . "\n";
+
         $url = $this->baseUrl . $path;
         if (!empty($query)) {
             $url .= '?' . http_build_query($query);
@@ -335,6 +341,9 @@ class Client
         foreach ($this->headers as $key => $value) {
             $headers[] = "{$key}: {$value}";
         }
+
+        print "Headers: " . json_encode($headers) . "\n";
+
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
         if (!empty($data)) {
@@ -342,10 +351,13 @@ class Client
         }
 
         $response = curl_exec($ch);
+        print "Response: {$response}\n";
+
         $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
 
         $decodedResponse = json_decode($response, true);
+        print "Decoded Response: " . json_encode($decodedResponse) . "\n";
 
         if ($statusCode < 200 || $statusCode >= 300) {
             throw new HttpException(
