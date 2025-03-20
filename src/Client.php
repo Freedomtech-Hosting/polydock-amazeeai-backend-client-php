@@ -9,12 +9,13 @@ class Client
     private string $baseUrl;
     private ?string $accessToken;
     private array $headers;
+    private bool $debug;
 
     /**
      * @param string $baseUrl
      * @param string|null $accessToken
      */
-    public function __construct(string $baseUrl, ?string $accessToken = null)
+    public function __construct(string $baseUrl, ?string $accessToken = null, $debug = false)
     {
         $this->baseUrl = rtrim($baseUrl, '/');
         $this->accessToken = $accessToken;
@@ -322,10 +323,10 @@ class Client
     private function request(string $method, string $path, array $data = [], array $query = []): array
     {
 
-        print "Method: {$method}\n";
-        print "Path: {$path}\n";
-        print "Data: " . json_encode($data) . "\n";
-        print "Query: " . json_encode($query) . "\n";
+        $this->printDebug("Method: {$method}");
+        $this->printDebug("Path: {$path}");
+        $this->printDebug("Data: " . json_encode($data));
+        $this->printDebug("Query: " . json_encode($query));
 
         $url = $this->baseUrl . $path;
         if (!empty($query)) {
@@ -342,7 +343,7 @@ class Client
             $headers[] = "{$key}: {$value}";
         }
 
-        print "Headers: " . json_encode($headers) . "\n";
+        $this->printDebug("Headers: " . json_encode($headers));
 
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
@@ -351,13 +352,13 @@ class Client
         }
 
         $response = curl_exec($ch);
-        print "Response: {$response}\n";
+        $this->printDebug("Response: {$response}");
 
         $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
 
         $decodedResponse = json_decode($response, true);
-        print "Decoded Response: " . json_encode($decodedResponse) . "\n";
+        $this->printDebug("Decoded Response: " . json_encode($decodedResponse));
 
         if ($statusCode < 200 || $statusCode >= 300) {
             throw new HttpException(
@@ -368,5 +369,12 @@ class Client
         }
 
         return $decodedResponse;
+    }
+
+    private function printDebug(string $message): void
+    {
+        if ($this->debug) {
+            print "amazeeai-backend-client-php: " . $message . "\n";
+        }
     }
 } 
