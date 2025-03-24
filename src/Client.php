@@ -120,7 +120,7 @@ class Client
         ];
 
         if ($userId > 0) {
-            $data['user_id'] = $userId;
+            $data['owner_id'] = $userId;
         }
 
         return $this->post('/private-ai-keys', $data);
